@@ -1,0 +1,6 @@
+﻿I have a browser-based game written in JavaScript and MatterJS.
+User adds some ground (static polygons) and stones (non-static polygons). Then simulation is started, stones starts falling and either hit or not the target.
+The simulation starts by pressing the readyButton.
+
+What I want is to add a resetButton which stops the simulation. It should re-create the matterJS engine instance and add all the bodies back to the world.
+There is some incomplete implementation, because it creates duplicates for objects where are loaded initially and not added by user. There is the Polygon.userAdded field, but the implementation is incomplete

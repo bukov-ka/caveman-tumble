@@ -1,0 +1,6 @@
+﻿GPT 4 is the best.
+
+It is painful to use something which is not best, because any error results in huge amount of manual testing and debugging. It is opposite to what we want.
+
+GPT sometimes suggests another approach: I wanted to re-create the level form scratch, but it caused issue and GPT suggested to not re-create all the objects and roll back their state instead.
+

@@ -1,0 +1,83 @@
+﻿I need to have an API to store JSON files. Each file unique identifier is UUID.
+As a persistance layer DynamoDB should be used.
+Each file should have the following attributes:
+- id. UUID should be provided by client.
+- file. JSON file content.
+- password. Should not be returned by GET operation. It is needed only to replace an existing item. If an existing item has a different password than provided, an error should be thrown. Password does not affect GET operation (any file can be returned without the password).
+- type. String: 'level' or 'set'
+
+GET and POST operations are needed. POST either creates a new file record or updates an exisitng one.
+Log of accessing the files is needed so we can determine which files are accessed and which are not.
+
+
+Some additonal Q&As:
+- Q: What is the expected volume of data? This will help in provisioning the DynamoDB table.
+  A: I don't expect large amount of data. There should be less than 1000 records.
+
+
+- Q: What is the average size of the JSON files? If they are large, we may need to consider using S3 for storage instead of DynamoDB.
+  A: Average file size should be around 100 kilobytes.
+
+
+- Q: Are there any specific performance requirements for the API (e.g. maximum acceptable latency)?
+  A: No performance requirements. It is a backend for a simple game and the JSONs are levels. It is an indy game without large amount of users.
+
+
+- Q: Is there a need for versioning of the files? If a file is updated, do we need to keep a history of previous versions?
+  A: No versioning is needed. The API should be really simple.
+
+
+- Q: Do we need to support deleting files?
+  A: No.
+
+
+- Q: Do we need to support any other operations apart from GET and POST? For example, do we need to support listing all files?
+  A: No, no other operations.
+
+
+- Q: Do we need to secure the API with an API key or any other form of authentication?
+  A: Yes, a fixed API key is enough.
+
+
+- Q: What is the expected traffic to the API? This will help in determining the required capacity of the API Gateway and Lambda function.
+  A: Traffic will be really low. We should not spend money on performance.
+
+
+- Q: How should we handle errors? For example, what should we do if a POST request is made with an invalid UUID?
+  A: No additional checks and error handling is needed. If incorrect UUID can be stored, we can just store it, otherwise an intenal error should be thrown.
+
+
+- Q: Is there a need for any form of encryption or additional security for the stored files?
+  A: No encryption needed.
+
+
+- Q: Do we need to support any form of search or query operation on the stored files?
+  A: No search needed.
+
+
+- Q: What AWS region(s) should we deploy to?
+  A: It does not matter. us-east will do.
+
+
+The CDK sample code that I have now:
+```
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+// import * as sqs from 'aws-cdk-lib/aws-sqs';
+
+
+export class GravitygameStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+
+    // The code that defines your stack goes here
+
+
+    // example resource
+    // const queue = new sqs.Queue(this, 'GravitygameQueue', {
+    //   visibilityTimeout: cdk.Duration.seconds(300)
+    // });
+  }
+}
+```

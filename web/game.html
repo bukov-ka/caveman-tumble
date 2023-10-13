@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Game of Gravity: Caveman Tumble</title>
+    <!-- Meta tags for no-caching -->
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Press+Start+2P"
+    />
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="https://cdn.rawgit.com/schteppe/poly-decomp.js/master/build/decomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.14.2/matter.min.js"></script>
+    <script src="https://unpkg.com/flatted@2.0.0/min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script type="module" src="clouds.js"></script>
+    <script type="module" src="game.js"></script>
+    <script>
+      window.decomp = decomp;
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9178932607124815"
+     crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="gameWrapper">
+      <div id="outerGameArea">
+        <div id="gameArea">
+          <div id="gameContainer">
+            <div id="gameCanvasContainer">
+              <table id="container">
+                <tr>
+                  <td id="column1">
+                    <div id="gameBackground"></div>
+                    <canvas id="gameCanvas"></canvas>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p id="gameStatus"></p>
+    <table>
+      <tr>
+        <td style="vertical-align: top; padding-right: 20px">
+          <div style="border: solid 2px red; padding: 20px">
+            <input type="radio" id="ground" name="mode" value="ground" />
+            <label for="ground">Ground</label><br />
+            <input
+              type="radio"
+              id="stones"
+              name="mode"
+              value="stones"
+              checked
+            />
+            <label for="stones">Stones</label><br />
+            <input type="radio" id="target" name="mode" value="target" admin />
+            <label for="target" admin>Target</label><br />
+            <!--<input type="radio" id="simulation" name="mode" value="simulation">
+      <label for="simulation">Simulation</label><br> -->
+          </div>
+        </td>
+        <td>
+          <button id="readyButton">Start</button>
+          <button id="resetButton" style="display: none">Reset</button>
+
+          <button id="saveButton" admin>Save Level</button>
+          <button id="saveSolutionButton" admin>Save Solution</button>
+          <button id="loadSolutionButton">Load Solution</button>
+          <p>
+            <label for="password" admin>Password:</label>
+            <input type="password" id="password" name="password" admin />
+          </p>
+          <p>
+            <label for="message" admin>Message:</label>
+            <textarea id="message" name="message" admin></textarea>
+          </p>
+          <button id="shareLinkButton" style="display: none">
+            Copy Link to Share
+          </button>
+        </td>
+      </tr>
+    </table>
+
+    <script type="module">
+      import { Game } from "./game.js";
+
+      window.onload = function () {
+        this._initialized = true;
+        const canvas = document.getElementById("gameCanvas");
+        const readyButton = document.getElementById("readyButton");
+        const saveButton = document.getElementById("saveButton");
+        const gameStatus = document.getElementById("gameStatus");
+        const radioButtonGroup = document.getElementsByName("mode");
+        const game = new Game(
+          canvas,
+          readyButton,
+          saveButton,
+          gameStatus,
+          radioButtonGroup
+        );
+
+        const resetButton = document.getElementById("resetButton");
+        resetButton.addEventListener("click", () => {
+          game.reset();
+        });
+      };
+    </script>
+  </body>
+</html>

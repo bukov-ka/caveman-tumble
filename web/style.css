@@ -1,0 +1,137 @@
+body {
+  font-family: "Press Start 2P", cursive;
+  color: #ff0000;
+  background-color: #000000;
+}
+
+h3 {
+  font-size: 24px;
+  text-align: center;
+  color: #ffd700; /* Golden color for the headers */
+}
+
+#gameArea {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  z-index: 0;
+}
+
+#gameContainer {
+  width: min(calc(1600 * 90vh / 600), 90vw);
+  min-width: 100px;
+  min-height: 100px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+#gameCanvas {
+  width: 100% !important;
+  height: auto !important;
+  margin: auto;
+}
+
+#column1 {
+  position: relative;
+  vertical-align: top;
+}
+
+#gameBackground {
+  background: linear-gradient(to bottom, #0080ff 0%, #66ccff 100%);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+@keyframes cloudMovement {
+  0% {
+    transform: translateX(-200px) scale(var(--scale));
+  }
+
+  100% {
+    transform: translateX(calc(100vw + 200px)) scale(var(--scale));
+  }
+}
+
+#gameWrapper {
+  display: flex;
+  width: 100%;
+}
+
+#outerGameArea {
+  display: flex;
+  width: 100%;
+}
+
+#readyButton, #saveButton, #resetButton, #saveSolutionButton, #loadSolutionButton, #shareLinkButton {
+  font-family: "Press Start 2P", cursive;
+  font-size: 20px;
+  color: #ff0000;
+  background-color: #000000;
+  border: 2px solid #ff0000;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#readyButton:hover {
+  color: #000000;
+  background-color: #ff0000;
+}
+
+#gameStatus {
+  font-size: 20px;
+  text-align: center;
+}
+
+button {
+  color: #ff0000;
+  background-color: #000000;
+  border: 2px solid #ff0000;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  color: #000000;
+  background-color: #ff0000;
+}
+
+#container {
+  height: 100%;
+}
+
+
+/* Override styles for SweetAlert2 */
+
+/* General styling for the modal */
+.swal2-popup {
+  border: 2px solid #ff0000 !important;
+  background-color: #000000 !important;
+  color: #ff0000 !important;
+}
+
+/* Styling for the OK button */
+.swal2-confirm, .swal2-cancel  {
+  font-family: "Press Start 2P", cursive;
+  color: #ff0000 !important;
+  background-color: #000000 !important;
+  border: 2px solid #ff0000 !important;
+  transition: all 0.3s ease;
+}
+
+.swal2-confirm:hover {
+  color: #000000 !important;
+  background-color: #ff0000 !important;
+}
+
+.swal-wide{
+  width:80%;
+}

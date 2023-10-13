@@ -1,0 +1,7 @@
+﻿I have written a browser-based game written in JavaScript using the matter.js library.
+After clicking the readyButton ('Start') button simulation is run.
+There is an ability to pass the level JSON name as a parameter, e.g. http://localhost:8080/?level=2.json
+I want to rename the index.html to game html, and I want to have another index.html.
+In that new index.html should be a list of levels and an iframe which displays the current level.
+At the left there should be list of levels and clicking on any of the items of the list should reload the game in the iframe with the corresponding ?level parameter.
+The list of the levels should be taken from a JSON path to which is passed via gameset param, e.g. http://localhost:8080/?gameset=level.json

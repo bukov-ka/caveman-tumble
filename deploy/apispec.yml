@@ -1,0 +1,62 @@
+﻿openapi: "3.0.0"
+info:
+  version: "1.0.0"
+  title: "Lambda Handler API"
+
+paths:
+  /items/{id}:
+    get:
+      summary: Get an Item
+      operationId: getItem
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The item was found and returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        400:
+          description: Missing id in path parameters.
+
+    post:
+      summary: Create or Update an Item
+      operationId: createOrUpdateItem
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        200:
+          description: Item created/updated.
+        400:
+          description: Missing password in request body.
+        403:
+          description: Incorrect password.
+
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+        content:
+          type: string
+        password:
+          type: string
+        contenttype:
+          type: string

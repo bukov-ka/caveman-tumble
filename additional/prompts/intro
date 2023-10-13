@@ -1,0 +1,11 @@
+﻿We are writing a browser game called 'Gravity Game'. It should be implemented in JavaScript only, without any backend. Control is done with mouse.
+There are 2 phases of a game:
+Phase 1: Player draws several polygons with mouse. And then click Ready. The polygons are fixed ground. They are not moving.
+Phase 2: Player draws several polygons with mouse. And then click Ready. The polygons drawn in the phase 2 become stones and start falling interacting with other stones and ground.
+Phase 3: The stones drawn in the phase 2 are starting falling.
+
+There is a target point which is on the center of screen horizontally and on 1/3 of screen above the ground. If the tartget point is hit with a stone, the game is won. If all the stones are settled, but the target point is not hit, the game is lost
+
+A physic library (matter.js) should be used to simulate solid bodies falling and collision.
+
+The game is partially implemented, but 

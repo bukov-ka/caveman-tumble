@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>Game of Gravity: Caveman Tumble</title>
+    <!-- Meta tags for no-caching -->
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Press+Start+2P"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <style>
+      body {
+        display: flex;
+        height: 100vh;
+        margin: 0;
+        font-family: "Press Start 2P", cursive;
+        color: #ff0000;
+        background-color: #000000;
+      }
+
+      #levelList {
+        flex: 20%;
+        height: 100%;
+        overflow: auto;
+        font-family: "Press Start 2P", cursive;
+        font-size: 20px;
+        color: #ff0000;
+        background-color: #000000;
+        padding: 20px; /* Add padding */
+      }
+
+      #levelList a {
+        display: block; /* Turn the links into block elements */
+        margin-bottom: 10px; /* Add some space between the links */
+        text-decoration: none; /* Remove the underline */
+        color: inherit; /* Make sure the text color is inherited */
+      }
+
+      #gameName {
+        margin-bottom: 20px; /* Add some space below the game name */
+        color: #ffd700; /* Golden color for the game name */
+        font-size: 30px; /* Larger font size */
+        text-align: center; /* Center the game name */
+        margin-bottom: 20px; /* Add some space below the game name */
+      }
+      #gameFrame {
+        flex: 80%;
+        height: 100%;
+      }
+      .completed::after {
+        content: "*"; /* Unicode character for check mark */
+        color: green; /* Change the color to green */
+        padding-left: 10px; /* Add some spacing */
+      }
+
+      /* Override styles for SweetAlert2 */
+
+      /* General styling for the modal */
+      .swal2-popup {
+        border: 2px solid #ff0000 !important;
+        background-color: #000000 !important;
+        color: #ff0000 !important;
+        width:80%;
+      }
+
+      /* Styling for the OK button */
+      .swal2-confirm,
+      .swal2-cancel {
+        font-family: "Press Start 2P", cursive;
+        color: #ff0000 !important;
+        background-color: #000000 !important;
+        border: 2px solid #ff0000 !important;
+        transition: all 0.3s ease;
+      }
+
+      .swal2-confirm:hover {
+        color: #000000 !important;
+        background-color: #ff0000 !important;
+      }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9178932607124815"
+     crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="levelList">
+      <h1 id="gameName">Game of Gravity: Caveman Tumble</h1>
+    </div>
+    <iframe id="gameFrame"></iframe>
+
+    <script type="module">
+      import { GravityApi } from "./gravityApi.js";
+
+      window.onload = async function () {
+        const gameName = document.getElementById("gameName");
+        // Get the gameset parameter from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const gameset = urlParams.get("gameset");
+        let firstLevelLink;
+
+        // Use the gameset parameter to load the corresponding level list
+        let gamesetUrl = gameset ? `${gameset}` : "level.json";
+        const levels = await GravityApi.getItem(gamesetUrl);
+
+        const levelList = document.getElementById("levelList");
+        levels.forEach((level, index) => {
+          const levelLink = document.createElement("a");
+          levelLink.href = "#";
+          levelLink.textContent = level.name;
+          levelLink.onclick = function () {
+            document.getElementById("gameFrame").src =
+              "game.html?level=" + level.path;
+          };
+
+          // Add a data-id attribute to each link with the current level ID
+          levelLink.setAttribute("data-id", level.path);
+
+          if (index === 0) {
+            firstLevelLink = levelLink;
+          }
+
+          // Check if the level id is in localStorage
+          const completedLevels =
+            JSON.parse(localStorage.getItem("completedLevels")) || [];
+          if (completedLevels.includes(level.path)) {
+            // If level is completed, add a "completed" class to the link
+            levelLink.classList.add("completed");
+          }
+
+          levelList.appendChild(levelLink);
+          levelList.appendChild(document.createElement("br"));
+        });
+
+        levelList.appendChild(document.createElement("hr"));
+        levelList.appendChild(document.createElement("br"));
+        // Create "New Level" link
+        const newLevelLink = document.createElement("a");
+        newLevelLink.href = "game.html?admin=true";
+        newLevelLink.textContent = "<< New Level >>";
+        newLevelLink.target = "_blank"; // open in new window
+
+        // Append "New Level" link to the list
+        levelList.appendChild(newLevelLink);
+
+        // Append "New Level" link to the list
+        levelList.appendChild(newLevelLink);
+
+        // Create "How to Play?" link
+        const howToPlayLink = document.createElement("a");
+        howToPlayLink.href = "https://youtu.be/Qcfug8T6Zc0";
+        howToPlayLink.innerHTML = "<<&nbsp;Help&nbsp;>>";
+        howToPlayLink.target = "_blank"; // open in new window
+
+        // Append "How to Play?" link to the list
+        levelList.appendChild(document.createElement("br"));
+        levelList.appendChild(howToPlayLink);
+
+        // Create "Contact Me" link
+        const contactMeLink = document.createElement("a");
+        contactMeLink.href = "#";
+        contactMeLink.innerHTML = `
+        <p style='font-family: sans-serif;font-size:12pt'>This game was fully created by AI tools: ChatGPT and Midjourney.</p>
+        <p style='font-family: sans-serif;font-size:12pt'>Contact email: 
+          <a style='text-decoration:underline;' href='mailto:konstantin@bukov.net?subject=Gravity%20Game'>konstantin@bukov.net</a><p>`;
+        contactMeLink.addEventListener("click", function (e) {
+          e.preventDefault(); // Prevent the default behavior of a link click
+          const emailLink = `mailto:konstantin@bukov.net?subject=Gravity%20Game`;
+          // Open a new window with the mailto link
+          window.open(emailLink, "_blank");
+        });
+
+        // Append "Contact Me" link to the list
+        levelList.appendChild(document.createElement("br"));
+        levelList.appendChild(contactMeLink);
+
+        // After the levels have been created, click the first one
+        if (firstLevelLink) firstLevelLink.click();
+
+        // Show welcome screen if value is not stored or if it's true
+        const welcomeScreenShown = localStorage.getItem("welcomeScreenShown");
+        if (welcomeScreenShown === null || welcomeScreenShown === "true") {
+          Swal.fire({
+            title: "Welcome to the Game of Gravity: Caveman Tumble!",
+            html: `<p style="text-align:left;line-height: 1.5;">Your goal is to hit the caveman with a stone. You can draw stones or ground.</p>
+                     <p style="text-align:left;"">Controls:</p>
+                     <ul style="text-align:left;"">
+                       <li>Left Mouse Click: add a point to the polygon</li>
+                       <li style="margin-top: 10px;">Right Mouse Click: close the polygon</li>
+                       <li style="margin-top: 10px;">'z': remove the last point</li>
+                     </ul>
+                     <p style="text-align:left;line-height: 1.5;">Choose the type of the polygon from the list, 'Ground' or 'Stone'. Hit 'Start' to run your solution.</p>`,
+            icon: "info",
+            showCloseButton: true,
+            showCancelButton: true,
+            focusConfirm: false,
+            confirmButtonText: "Start Game",
+            cancelButtonText: "Don’t show again",
+          }).then((result) => {
+            if (result.dismiss === Swal.DismissReason.cancel) {
+              localStorage.setItem("welcomeScreenShown", "false");
+            }
+          });
+        }
+      };
+
+      window.markLevelAsCompleted = function (levelId) {
+        let completedLevels = localStorage.getItem("completedLevels");
+        completedLevels = completedLevels ? JSON.parse(completedLevels) : [];
+        // if the level isn't already saved
+        if (!completedLevels.includes(levelId)) {
+          completedLevels.push(levelId);
+          localStorage.setItem(
+            "completedLevels",
+            JSON.stringify(completedLevels)
+          );
+        }
+
+        // Get all link elements
+        const links = document
+          .getElementById("levelList")
+          .getElementsByTagName("a");
+
+        // Loop through all link elements
+        for (let i = 0; i < links.length; i++) {
+          if (links[i].getAttribute("data-id") === levelId) {
+            links[i].classList.add("completed");
+          }
+        }
+      };
+    </script>
+  </body>
+</html>
